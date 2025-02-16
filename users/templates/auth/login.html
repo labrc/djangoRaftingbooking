@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" style="background-color: black;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Rios Australes</title>
+    <link href="{% static '/assets/css/black-dashboard.css' %}" rel="stylesheet">
+</head>
+<body class="dark-mode d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="container" style="max-width: 400px; background: #1e1e2f; padding: 20px; border-radius: 10px;">
+
+        {% if user.is_authenticated %}
+        <script>
+            window.location.href = "{% url 'index' %}";
+        </script>
+        {% else %}
+        <h2 class="text-center text-white">Iniciar Sesión</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label text-white">Usuario</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label text-white">Contraseña</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'register' %}" class="text-white">¿No tienes cuenta? Regístrate aquí</a>
+        </div>
+        {% endif %}
+
+
+    </div>
+    <div id="errorModal" class="modal">
+        {% if messages %}
+        
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                {% for message in messages %}
+                    <p class="error-message">{{ message }}</p>
+                {% endfor %}
+           
+        </div>
+    {% endif %}
+    
+      </div>
+  </div>
+  <style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+        background-color: rgb(0, 0, 0);
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%;
+        text-align: center;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .close:hover, .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+</body>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var modal = document.getElementById("errorModal");
+    var messageElement = document.querySelector(".error-message"); // Buscar mensaje real
+    var closeBtn = document.querySelector(".close");
+
+    if (messageElement && messageElement.textContent.trim() !== "") {
+        modal.style.display = "block";
+    }
+
+    closeBtn.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+});
+
+</script>
+
+</html>
