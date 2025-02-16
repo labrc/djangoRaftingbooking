@@ -1,0 +1,23 @@
+{%  extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="contenedor">
+    <h1 class="text-danger">Bienvenidos</h1>
+    {% if user.is_authenticated %}
+    <p>Work in progress </p>
+    <li><a href="/Bajadas">Bajadas</a></li>
+    <li><a href="/Usuario_nuevo">Agregar Navegante</a></li>
+    <li><a href="/Configuracion">Configuracion</a></li>
+    <li><a href="/Bajada_nueva">Agregar Bajada</a></li>
+
+    <li><a href="/admin">Panel admin</a></li>
+    <li><a href="/Recorridos">Recorridos</a></li>
+    <li><a href="/Balsas">Balsas</a></li>
+    <li><a href="/Sobre">about</a></li>
+
+
+    {% else %}
+    <li><a href="/usuarios/login">Logeate</a></li>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{%  extends 'layouts/base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<div class="contenedor"  >
+<h1   align="center">Lista de Balsas</h1>
+
+<!-- Botón para agregar una nueva balsa -->
+<p align="center"><a href="{% url 'balsa' %}" class="button btn-add">Agregar Balsa</a> </p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Capacidad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for balsa in balsas %}
+        <tr>
+            <td>🛶{{ balsa.nombre }}</td>
+            <td>{{ balsa.capacidad }} personas</td>
+            <td>
+                <a href="{% url 'editar_balsa' balsa.id %}" class="button btn-edit">Editar</a>
+                
+                
+                <form action="{% url 'eliminar_balsa' balsa.id %}" method="POST"  class="form-recorrido">
+                                    
+                    {% csrf_token %}
+                    <button type="submit"  onclick="return confirm('¿Estás seguro de que quieres eliminar este recorrido?');">Eliminar</button>
+                </form>
+                
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" style="text-align: center;">No hay balsas disponibles</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}
+
+
+
+

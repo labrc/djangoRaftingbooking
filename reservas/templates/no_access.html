@@ -1,0 +1,18 @@
+{%  extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="contenedor" style="text-align: center;">
+    <h1 class="text-danger text-center">Alto ahí!</h1>
+    <img src="https://media.giphy.com/media/3o7TKz5vVU5hQn5lIc/giphy.gif" alt="No access" class="img-fluid">
+    {% if user.is_authenticated %}
+    <p class="text-primary m-3">Panel reservado para Admins</p>
+
+
+
+    {% else %}
+    <li><a href="/usuarios/login">Logeate</a></li>
+    {% endif %}
+
+
+</div>
+{% endblock %}

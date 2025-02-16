@@ -1,0 +1,155 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container mt-4 p-4" style="max-width: 800px; background: #1e1e2f; border-radius: 10px;">
+    <h2 class="text-center text-white">Agregar por CSV</h2>
+    <form id="csvForm">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="csv_data" class="form-label text-white">Pega aquí los datos en formato CSV:</label>
+            <textarea name="csv_data" id="csv_data" rows="10" class="form-control" placeholder="Documento,Apellido,Nombre,Fecha de Nacimiento,Teléfono,Email"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success w-100">📥 Cargar Navegantes</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'navegantes' %}" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+<!-- Modal Personalizado (sin Bootstrap) -->
+<div id="csvModal" class="modal" style="display: none;max-width: 300;">
+    <div class="modal-content" style="max-width: 300;">
+        <div class="modal-header">
+            <h5 class="modal-title text-white">Resultado de Importación</h5>
+            <span class="close" onclick="cerrarModal()">&times;</span>
+        </div>
+        <div class="modal-body text-white" id="csvModalBody" style="max-width: 300;">
+            <!-- Mensajes se insertarán aquí -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="cerrarModal()">Cerrar</button>
+        </div>
+    </div>
+</div>
+<div class="mb-3">
+    <label class="form-label text-white">Asignar a una Bajada:</label>
+    <select id="bajada_id" name="bajada_id" class="form-select">
+        <option value="">-- No asignar bajada --</option>
+        {% for bajada in bajadas %}
+            <option value="{{ bajada.id }}">{{ bajada.fecha }} - {{ bajada.horario }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<!-- CSS del Modal -->
+<style>
+    .modal {
+        display: none;
+        position: center;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+    background-color: #1e1e2f;
+    margin: 15% auto;  /* 🔥 Lo baja un poco más */
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    max-width: 500px;
+    color: white;
+}
+
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .close {
+        font-size: 28px;
+        cursor: pointer;
+        color: white;
+    }
+
+    .close:hover {
+        color: red;
+    }
+
+    .modal-footer {
+        text-align: right;
+    }
+</style>
+
+
+<script>
+document.getElementById("csvForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let csvData = document.getElementById("csv_data").value.trim();
+    let bajadaSeleccionada = document.getElementById("bajada_id").value;
+    let formData = new FormData(this);
+    let url = "{% url 'procesar_csv' %}";
+
+
+    console.log("📤 Enviando solicitud a:", url);
+    console.log("📜 Datos CSV:", csvData);
+    console.log("📍 Bajada seleccionada:", bajadaSeleccionada);
+
+    if (bajadaSeleccionada) {
+        formData.append("bajada_id", bajadaSeleccionada);
+    }
+
+    fetch(url, {
+        method: "POST",
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("📩 Respuesta del servidor:", data);
+
+        let modalBody = document.getElementById("csvModalBody");
+
+        // Si el servidor responde con éxito, mostramos un mensaje en verde
+        if (data.success) {
+            modalBody.innerHTML = `<p class="text-success">${data.message}</p>`;
+            document.getElementById("csv_data").value = ""; // ✅ Limpiar el textarea después del éxito
+        } else {
+            // Si hay errores, los mostramos en rojo
+            modalBody.innerHTML = `<p class="text-danger">${data.message}</p>`;
+            if (data.errors) {
+                modalBody.innerHTML += `<ul>`;
+                data.errors.forEach(error => {
+                    modalBody.innerHTML += `<li class="text-warning">${error}</li>`;
+                });
+                modalBody.innerHTML += `</ul>`;
+            }
+        }
+
+        abrirModal();  // 🔥 Asegurarnos de que el modal se abra
+
+    })
+    .catch(error => {
+        console.error("❌ Error en la solicitud:", error);
+        let modalBody = document.getElementById("csvModalBody");
+        modalBody.innerHTML = `<p class="text-danger">❌ Ocurrió un error en la solicitud.</p>`;
+        abrirModal();
+    });
+});
+function abrirModal() {
+    console.log("🟢 Mostrando modal...");
+    document.getElementById("csvModal").style.display = "block";
+}
+
+function cerrarModal() {
+    document.getElementById("csvModal").style.display = "none";
+}
+
+</script>
+  {% endblock %}

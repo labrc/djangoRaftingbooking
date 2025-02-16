@@ -1,0 +1,51 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<div class="contenedor">
+    <h2>Perfil de {{ user.username }} -         {% if user.groups.all %}{{ user.groups.all.0.name }}{% else %}Sin grupo{% endif %}</h2> 
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <p><strong>Nombre de usuario:</strong> 
+            <span >{{ user.username }}</span>
+        </p>
+        
+        <p><strong>Email:</strong> 
+            <span>{{ user.email }}</span>
+        </p>
+        
+        <p><strong>Fecha de registro:</strong> {{ user.date_joined }}</p>
+        
+        
+        <p><strong>Teléfono:</strong> 
+            <span id="telefono-text">{{ user.telefono|default:'' }}</span>
+            <input type="text" name="telefono" id="telefono-input" value="{{ user.telefono|default:'' }}" style="display:none;">
+            <button type="button" onclick="toggleEdit('telefono')" class="btn btn-sm btn-primary">Editar</button>
+        </p>
+        
+        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+    </form>
+    
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+    </form>
+</div>
+
+<script>
+    function toggleEdit(field) {
+        var textElement = document.getElementById(field + "-text");
+        var inputElement = document.getElementById(field + "-input");
+        
+        if (inputElement.style.display === "none") {
+            inputElement.style.display = "inline";
+            textElement.style.display = "none";
+        } else {
+            inputElement.style.display = "none";
+            textElement.style.display = "inline";
+        }
+    }
+</script>
+
+{% endblock %}

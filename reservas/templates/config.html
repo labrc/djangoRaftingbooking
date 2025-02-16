@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-white">Configuración</h1>
+
+    <ul class="list-group">
+        <li class="list-group-item bg-dark">
+            <a href="/Recorridos" class="text-info">📍 Administrar Recorridos</a>
+        </li>
+        <li class="list-group-item bg-dark">
+            <a href="/Navegantes" class="text-success">🛶 Ver navegantes</a>
+        </li>
+        <li class="list-group-item bg-dark">
+            <a href="/Balsas" class="text-warning">🚣 Administrar Balsas</a>
+        </li>
+        <li class="list-group-item bg-dark">
+            <a href="/admin" class="text-warning">⚙️  Panel de admin</a>
+        </li>
+
+    </ul>
+</div>
+{% endblock %}

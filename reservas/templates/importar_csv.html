@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="contenedor">
+    <h2>Importar Navegantes desde CSV</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="csv_data">Pega aquí el CSV:</label><br>
+        <textarea name="csv_data" rows="10" cols="50" placeholder="DNI,Nombre,Edad,Email,Teléfono,Fecha Bajada"></textarea><br>
+        <button type="submit">Procesar CSV</button>
+    </form>
+</div>
+{% endblock %}

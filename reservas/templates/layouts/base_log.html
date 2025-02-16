@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" style="background-color: black;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rios Australes Rafting</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static '/assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet"> 
+    <link href="{% static '/assets/vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static '/assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet"> 
+
+    <!-- Black Dashboard CSS -->
+    <link href="{% static '/assets/css/black-dashboard.css' %}" rel="stylesheet">
+    <link href="{% static '/assets/css/custom.css' %}" rel="stylesheet"> <!-- Archivo para ajustes personalizados -->
+</head>
+<body class="sidebar-mini dark-mode g-sidenav-show" >
+  <div class="wrapper" style="max-width: 1600px; margin: 0 auto;   border-radius: 10px;">
+    
+    <!-- Sidebar -->
+    <div class="sidebar" data-color="black">
+      <div class="sidebar-wrapper">
+        <div class="logo text-center">
+          <a href="/" class="navbar-brand" alt="Rios Australes" style="text-align: center;"><img src="{% static 'images/logo.png' %}"  width="105"></a>
+        </div>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">
+              <i class="bi bi-info-circle"></i>
+              <p>Log in</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">
+              <i class="bi bi-info-circle"></i>
+              <p>Sobre Nosotros</p>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+    
+    <!-- Contenido Principal -->
+    <div class="main-panel">
+      <!-- Navbar -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    
+    <!-- Contenedor del Logo y el Título -->
+    <div class="d-flex align-items-center">
+      <a class="navbar-brand d-flex align-items-center" href="/" style="white-space: nowrap;">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" width="50"  class="me-2"> 
+        <span class="d-none d-md-block">Rios Australes</span> <!-- Se oculta en pantallas pequeñas -->
+      </a>
+    </div>
+
+    <!-- Botón de colapso -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Contenedor del Menú de Navegación -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Log In</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">Sobre Nosotros</a>
+        </li>
+      </ul>
+      <span class="navbar-text">
+        <a class="nav-link" href="/usuarios/profile">{{ user.username }}</a>
+      </span>
+    </div>
+
+  </div>
+</nav>
+
+      
+      <!-- Contenido de la Página -->
+      <!-- Contenido de la Página -->
+<div class="content" style="max-width: 1200px; margin: 0 auto;">
+

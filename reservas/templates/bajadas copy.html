@@ -1,0 +1,100 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="contenedor" style="margin: auto; width: 20%; padding: 20px;">
+    <h1>Lista de Bajadas</h1>
+
+    <ul>
+        {% for bajada in bajadas %}
+            <li >
+                🛶 <strong>{{ bajada.fecha }} {{bajada.recorrido}} </strong> - {{ bajada.horario }} <br>
+                <a href="{% url 'editar_bajada' bajada.id %}"><button class="button btn-edit" >
+                    {% if bajada.id %}
+                    Editar Fecha
+                {% else %}
+                    <span>No editable</span>
+                {% endif %}
+                </button></a>
+
+                <ul >
+                    {% for usuario in balsa.navegantes.all %}
+                        <li style="text-align: left;">
+                            {{ usuario.nombre_completo }}
+                            {% if usuario.telefono %}
+                            &nbsp;&nbsp;<button onclick="sendWhatsApp('{{ usuario.telefono }}')">&#9990; WA</button>&nbsp;
+                            {% else %}
+                            &nbsp;&nbsp;<button disabled>&#128222;</button>&nbsp;
+                            {% endif %}
+                            &nbsp;&nbsp;&nbsp;<button  
+                                    onmouseover="showDetails(event, '{{ usuario.nombre_completo }}', '{{ usuario.edad }}', '{{ usuario.documento }}', '{{ usuario.comentarios }}', '{{ usuario.valor_pago }}', '{{ usuario.telefono }}')" 
+                                    onmouseout="hideDetails()">Datos</button>
+                        </li>
+                    {% empty %}
+                        <li class="text-gray-500">No hay usuarios asignados</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Tooltip (ventana flotante) para mostrar los detalles -->
+<div id="userTooltip" class="tooltip" style="display: none;">
+    <p><strong>Nombre Completo:</strong> <span id="userName"></span></p>
+    <p><strong>Edad:</strong> <span id="userAge"></span></p>
+    <p><strong>Documento:</strong> <span id="userDocument"></span></p>
+    <p><strong>Comentarios:</strong> <span id="userComments"></span></p>
+    <p><strong>Valor Pago:</strong> <span id="userPayment"></span></p>
+    <p><strong>Teléfono:</strong> <span id="userPhone"></span></p>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Función para enviar un WhatsApp al número
+    function sendWhatsApp(phone) {
+        var url = "https://wa.me/" + phone;  // Usando el número de teléfono para abrir WhatsApp
+        window.open(url, "_blank");  // Abre WhatsApp en una nueva pestaña
+    }
+
+    // Función para mostrar los detalles del usuario como un tooltip flotante
+    function showDetails(event, name, age, document, comments, payment, phone) {
+        var tooltip = document.getElementById('userTooltip');
+        tooltip.style.display = 'block';  // Mostrar el tooltip
+        tooltip.style.left = (event.pageX + 10) + 'px';  // Posiciona el tooltip cerca del mouse en X
+        tooltip.style.top = (event.pageY + 10) + 'px';   // Posiciona el tooltip cerca del mouse en Y
+
+        // Insertar los detalles del usuario dentro del tooltip
+        document.getElementById('userName').innerText = name;
+        document.getElementById('userAge').innerText = age;
+        document.getElementById('userDocument').innerText = document;
+        document.getElementById('userComments').innerText = comments;
+        document.getElementById('userPayment').innerText = payment;
+        document.getElementById('userPhone').innerText = phone;
+    }
+
+    // Función para ocultar el tooltip
+    function hideDetails() {
+        document.getElementById('userTooltip').style.display = 'none';  // Ocultar el tooltip
+    }
+</script>
+
+<style>
+    /* Estilo para el tooltip flotante */
+    .tooltip {
+        position: absolute;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        padding: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        z-index: 1000;
+        width: 200px;
+        display: none;  /* Inicialmente oculto */
+    }
+</style>
+{% endblock %}
+
+
+

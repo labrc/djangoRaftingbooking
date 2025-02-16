@@ -1,0 +1,31 @@
+{%  extends 'layouts/base.html' %}
+
+{% block content %}
+
+<div class="contenedor">
+
+<h1 style="text-align: center;">Recorridos</h1>
+
+<p style="text-align: center;"><a href="{% url 'recorrido_nuevo' %}" ><button>Agregar recorrido</button></a></p>
+
+<ul>
+    {% for recorrido in recorridos %}
+        <li>
+          <form action="{% url 'eliminar_recorrido' recorrido.pk %}" method="POST"  class="form-recorrido">
+            {{ recorrido.nombre }} ({{ recorrido.clase }})
+            <a href="{% url 'editar_recorrido' recorrido.pk %}"><button>Editar</button></a>
+            
+              {% csrf_token %}
+              <button type="submit"  onclick="return confirm('¿Estás seguro de que quieres eliminar este recorrido?');">Eliminar</button>
+          </form>
+          
+          
+          
+          
+          
+
+        </li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

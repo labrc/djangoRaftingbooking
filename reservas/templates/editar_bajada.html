@@ -1,0 +1,25 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="contenedor">
+    <h1>Editar Bajada</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <label for="id_fecha">Fecha:</label>
+        <input type="date" id="id_fecha" name="fecha" value="{{ form.fecha.value|date:'Y-m-d' }}" required>
+        
+
+        <label for="id_horario">Horario:</label>
+        {{ form.horario }}  <!-- 🔥 Django generará un <select> con "Mañana", "Tarde" y "Extra" -->
+
+        <label for="id_recorrido">Recorrido:</label>
+        {{ form.recorrido }}  <!-- 🔥 Django generará un <select> con los recorridos disponibles -->
+
+        <br><br>
+        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+        <a href="{% url 'bajadas' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

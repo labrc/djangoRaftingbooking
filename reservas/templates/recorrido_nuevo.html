@@ -1,0 +1,16 @@
+{%  extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="contenedor">
+<h1 style="text-align: center;">Agregar nuevo recorrido</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+<p style="text-align: center;">
+    <a href="{% url 'recorridos' %}"  ><button>Volver a la lista</button></a>
+</p>
+  </div>
+{% endblock %}

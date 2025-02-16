@@ -1,0 +1,107 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- ✅ Luego jQuery UI -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+
+
+<div class="container" style="max-width: 1200px; margin: 0 auto; padding: 20px; background: #1e1e2f; border-radius: 10px;">
+    <h1 class="text-white text-center">Lista de Bajadas</h1>
+    
+    <form method="post" class="bg-dark p-4 rounded">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Bajada</button>
+    </form>
+
+    {% if messages %}
+        <ul class="messages list-unstyled mt-3">
+            {% for message in messages %}
+                <li class="alert alert-{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<div class="container mt-4" style="max-width: 1200px;">
+    <div class="card bg-dark text-white p-3 rounded">
+        <div id="calendar"></div>
+    </div>
+</div>
+
+<style>
+    /* Asegura que los inputs y selects tengan texto visible */
+    input, select, textarea {
+        color: black !important;
+        background-color: white !important;
+        border: 1px solid #ced4da;
+        padding: 8px;
+        border-radius: 5px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        color: black !important;
+        background-color: white !important;
+        border-color: #80bdff;
+        outline: none;
+    }
+
+    /* Para que los labels sean visibles en el tema oscuro */
+    label {
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    $(function() {
+        $(".datepicker").datepicker({
+            dateFormat: "yy-mm-dd",
+            beforeShowDay: function(date) {
+                var string = $.datepicker.formatDate('yy-mm-dd', date);
+                return [fechasOcupadas.indexOf(string) == -1]; // Deshabilita fechas ocupadas
+            }
+        });
+    });
+
+    var fechasOcupadas = {{ fechas_ocupadas|safe }};
+
+    document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: true,
+        events: function(fetchInfo, successCallback, failureCallback) {
+            fetch('/obtener_bajadas_json/')
+            .then(response => response.json())
+            .then(data => {
+                console.log("Eventos cargados:", data);  // 🔥 Verifica en la consola
+                successCallback(data);
+            })
+            .catch(error => {
+                console.error("Error cargando eventos:", error);
+                failureCallback(error);
+            });
+        },
+        dateClick: function (info) {
+            document.getElementById("id_fecha").value = info.dateStr;
+        }
+    });
+
+    calendar.render();
+});
+</script>
+
+
+{% endblock %}

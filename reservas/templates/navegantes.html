@@ -1,0 +1,112 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="container mt-4 p-4" style="max-width: 1300px; background: #1e1e2f; border-radius: 10px;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-white">Lista de Navegantes</h2>
+        <div>
+            <a href="{% url 'nuevocliente' %}" class="btn btn-success btn-sm">➕ Agregar Navegante</a>
+            <a href="{% url 'agregar_por_csv' %}" class="btn btn-info btn-sm">📂 Cargar CSV</a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    {% if request.user.is_superuser %}
+                        <th>Nac.</th>
+                        <th>Documento</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Valor Pago</th>
+                        <th>Bajadas Asignadas</th>
+                        <th>Acciones</th>
+                    {% else %}
+                        <th>Acciones</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for grupo in page_obj %}
+                    {% with primera_bajada=grupo.bajada %}
+                    
+                    {% if primera_bajada %}
+                        <!-- Fila del encabezado de bajada -->
+                        <tr class="bg-dark text-white">
+                            <td colspan="{% if request.user.is_superuser %}8{% else %}2{% endif %}">
+                                Bajada: {{ primera_bajada.fecha }} ({{ primera_bajada.horario }})
+                                <button class="btn btn-sm btn-light ml-2" data-toggle="collapse" data-target=".bajada-{{ primera_bajada.id }}">
+                                    ⬇ Mostrar / Ocultar
+                                </button>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    <!-- Navegantes -->
+                    {% for usuario in grupo.navegantes %}
+                        <tr class="{% if primera_bajada %}collapse bajada-{{ primera_bajada.id }}{% endif %}">
+                            <td>{{ usuario.apellido }} {{ usuario.nombre }}</td>
+
+                            {% if request.user.is_superuser or usuario.created_by == request.user %}
+                                <td>{{ usuario.edad }}</td>
+                                <td>{{ usuario.documento }}</td>
+                                <td>{{ usuario.telefono|default:"-" }}</td>
+                                <td>{{ usuario.email|default:"-" }}</td>
+                                <td>${{ usuario.valor_pago }}</td>
+                                <td>
+                                    {% if primera_bajada %}
+                                        {{ primera_bajada.fecha }} ({{ primera_bajada.horario }})
+                                    {% else %}
+                                        <span class="text-muted">Sin bajada</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'editar_usuario' usuario.documento %}" class="btn btn-warning btn-sm">Editar</a>
+                                    <form action="{% url 'eliminar_navegante' usuario.pk %}" method="post" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    </form>
+                                </td>
+                            {% else %}
+                                <td colspan="7" class="text-center text-muted">Datos ocultos</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    {% endwith %}
+                {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center text-white">No hay navegantes registrados.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-primary" href="?page=1">« Primera</a>
+            <a class="btn btn-primary" href="?page={{ page_obj.previous_page_number }}">‹ Anterior</a>
+        {% endif %}
+
+        <span class="btn btn-secondary disabled">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">Siguiente ›</a>
+            <a class="btn btn-primary" href="?page={{ page_obj.paginator.num_pages }}">Última »</a>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("[data-toggle='collapse']").forEach(button => {
+        button.addEventListener("click", function() {
+            let target = this.dataset.target;
+            document.querySelectorAll(target).forEach(el => el.classList.toggle("show"));
+        });
+    });
+});
+</script>
+{% endblock %}

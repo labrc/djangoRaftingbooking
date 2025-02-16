@@ -1,0 +1,88 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container mt-4 p-4" style="max-width: 720px; background: #1e1e2f; border-radius: 10px;">
+    <h2 class="text-center text-white">Añadir Navegante</h2>
+
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label text-white">{{ form.apellido.label_tag }}</label>
+            {{ form.apellido }}
+             <label class="form-label text-white">{{ form.nombre.label_tag }}</label>
+            {{ form.nombre }}
+        </div>
+        <div class="mb-3" ">
+            <label class="form-label text-white" style="max-width: 200px;">{{ form.edad.label_tag }}</label><div class="d-inline-block w-19">
+                {{ form.edad }}
+            </div>
+        
+            <label class="form-label text-white ms-3">{{ form.documento.label_tag }}</label>
+            <div class="d-inline-block w-15">
+                {{ form.documento }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label text-white">{{ form.telefono.label_tag }}</label>
+            {{ form.telefono }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label text-white">{{ form.email.label_tag }}</label>
+            {{ form.email }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label text-white">{{ form.valor_pago.label_tag }}</label>
+            {{ form.valor_pago }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label text-white">{{ form.comentarios.label_tag }}</label>
+            {{ form.comentarios }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label text-white" for="id_bajadas">Selecciona una o más Fechas:</label>
+            {{ form.bajadas }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Guardar Usuario</button>
+    </form>
+
+    {% if messages %}
+        <div class="alert alert-info mt-3">
+            <ul class="list-unstyled">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{% url 'bajadas' %}" class="btn btn-secondary">Volver a la lista de Bajadas</a>
+    </div>
+</div>
+
+<!-- Estilos para inputs negros con texto blanco -->
+<style>
+    input, textarea, select {
+        background-color: #1c1c1e !important;
+        color: white !important;
+        border: 1px solid #444;
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: #999 !important;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        background-color: #222 !important;
+        color: white !important;
+        border-color: #007bff !important;
+    }
+</style>
+{% endblock %}

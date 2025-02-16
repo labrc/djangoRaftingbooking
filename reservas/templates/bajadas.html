@@ -1,0 +1,205 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-white">Lista de Bajadas</h1>
+
+    <a href="?modo={% if modo_pasado %}futuras{% else %}pasadas{% endif %}" class="btn btn-primary mt-3">
+        {% if modo_pasado %}Ver bajadas futuras{% else %}Ver bajadas pasadas{% endif %}
+    </a>
+
+    <ul class="list-group mt-3">
+        {% for bajada in page_obj %}
+        <li class="list-group-item bg-dark text-white">
+            🛶 <strong>{{ bajada.fecha }} - {{ bajada.recorrido.nombre }}</strong> - {{ bajada.horario }}  
+
+            {% if user.is_superuser %}
+                <a href="{% url 'editar_bajada' bajada.id %}" class="btn btn-secondary btn-sm">✏️</a>
+                <form action="{% url 'borrar_bajada' bajada.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta bajada?')">🗑️</button>
+                </form>
+            {% endif %}
+
+            <!-- BOTÓN DE GENERAR PLANILLA -->
+            {% if user.is_superuser %}<a href="{% url 'exportar_planilla' bajada.id %}" class="btn btn-success btn-sm">📥 Generar Planilla</a>  {% endif %}
+
+            <br><br>
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Navegante</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in bajada.navegantes.all %}
+                    <tr>
+                        <td>{% if user.is_superuser or usuario.created_by == user %}{{ usuario.apellido }}, {% endif %}{{ usuario.nombre }}</td>
+                        <td>
+                            {% if user.is_superuser or usuario.created_by == user %}
+                                <!-- Botón para abrir el modal -->
+                                <button class="btn btn-info btn-sm datos-btn"
+                                    data-nombre="{{ usuario.apellido }}, {{ usuario.nombre }}"
+                                    data-edad="{{ usuario.edad }}"
+                                    data-documento="{{ usuario.documento }}"
+                                    data-telefono="{{ usuario.telefono|default:'No disponible' }}"
+                                    data-email="{{ usuario.email|default:'No disponible' }}"
+                                    data-valor="{{ usuario.valor_pago }}">
+                                    📄 Datos
+                                </button>
+
+                                &nbsp;
+                                
+                                <!-- Botón de WhatsApp -->
+                                {% if usuario.telefono %}
+                                    <button class="btn btn-success btn-sm" onclick="sendWhatsApp('{{ usuario.telefono }}')">
+                                        &#9990; WhatsApp
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-secondary btn-sm" disabled>
+                                        &#9990; WhatsApp
+                                    </button>
+                                {% endif %}
+
+                                &nbsp;
+
+                                <!-- Botón de Email -->
+                                {% if usuario.email %}
+                                    <button class="btn btn-primary btn-sm" onclick="sendEmail('{{ usuario.email }}')">
+                                        &#9993; Email
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-secondary btn-sm" disabled>
+                                        &#9993; Email
+                                    </button>
+                                {% endif %}
+
+                                &nbsp;
+
+                                <!-- Botón de Editar -->
+                                <a href="{% url 'editar_usuario' usuario.documento %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+
+                            {% else %}
+                                <span class="text-muted">Datos ocultos</span>
+                                <button class="btn btn-secondary btn-sm" disabled>✏️ Editar</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" class="text-muted">No hay navegantes asignados</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-muted bg-dark">No hay bajadas en esta categoría.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Modal de Datos sin Bootstrap -->
+    <div id="datosModal" class="modal-container">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>📄 Datos del Navegante</h2>
+            <p><strong>Nombre:</strong> <span id="modal-nombre"></span></p>
+            <p><strong>Edad:</strong> <span id="modal-edad"></span></p>
+            <p><strong>Documento:</strong> <span id="modal-documento"></span></p>
+            <p><strong>Teléfono:</strong> <span id="modal-telefono"></span></p>
+            <p><strong>Email:</strong> <span id="modal-email"></span></p>
+            <p><strong>Valor Pago:</strong> <span id="modal-valor"></span></p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Estilos para el modal -->
+<style>
+.modal-container {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #1e1e2f;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 40%;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+}
+
+.close-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 22px;
+    cursor: pointer;
+    color: white;
+}
+</style>
+
+<!-- JavaScript para manejar el modal y WhatsApp/Email -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let modal = document.getElementById("datosModal");
+    let closeButton = document.querySelector(".close-btn");
+
+    document.querySelectorAll(".datos-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            document.getElementById("modal-nombre").textContent = this.dataset.nombre;
+            document.getElementById("modal-edad").textContent = this.dataset.edad;
+            document.getElementById("modal-documento").textContent = this.dataset.documento;
+            document.getElementById("modal-telefono").textContent = this.dataset.telefono;
+            document.getElementById("modal-email").textContent = this.dataset.email;
+            document.getElementById("modal-valor").textContent = this.dataset.valor;
+
+            modal.style.display = "flex";
+        });
+    });
+
+    closeButton.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+
+// Función para enviar WhatsApp
+function sendWhatsApp(phone) {
+    if (!phone || phone === "No disponible") {
+        alert("⚠️ Este usuario no tiene un número de teléfono disponible.");
+        return;
+    }
+    let url = "https://wa.me/" + phone;
+    window.open(url, "_blank");
+}
+
+// Función para enviar Email
+function sendEmail(email) {
+    if (!email || email === "No disponible") {
+        alert("⚠️ Este usuario no tiene un email disponible.");
+        return;
+    }
+    let url = "mailto:" + email;
+    window.open(url, "_blank");
+}
+</script>
+
+{% endblock %}

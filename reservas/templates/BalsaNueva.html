@@ -1,0 +1,44 @@
+{%  extends 'layouts/base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<div class="header"  >
+<h1  align="center">Lista de Balsas</h1>
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Guardar Balsa</button>
+</form>
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function() {
+        $(".datepicker").datepicker({
+            dateFormat: "yy-mm-dd",
+            beforeShowDay: function(date) {
+                var string = $.datepicker.formatDate('yy-mm-dd', date);
+                return [fechasOcupadas.indexOf(string) == -1]; // Deshabilita fechas ocupadas
+            }
+        });
+    });
+</script>
+<script>
+    var fechasOcupadas = {{ fechas_ocupadas|safe }};
+</script>
+{% endblock %}
+
+
+
+
