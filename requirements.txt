@@ -1,0 +1,19 @@
+# Django y dependencias principales
+django
+gunicorn
+
+# Autenticación y seguridad
+django-bootstrap5
+
+#django.contrib.auth
+
+# Base de datos y modelos
+psycopg2-binary  # Para PostgreSQL, si usas SQLite no es necesario
+pandas
+
+# Procesamiento de datos y archivos
+openpyxl  # Para trabajar con archivos Excel
+#csv
+
+# Otras dependencias útiles
+#requests
