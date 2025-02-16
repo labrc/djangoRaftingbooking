@@ -1,0 +1,282 @@
+/* Estilo para el cuerpo de la página */
+body {
+    background-color: #202020;  /* Fondo oscuro para el cuerpo */
+    color: whitesmoke;  /* Color de texto blanco roto */
+}
+
+/* Estilo para la barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: center;  /* Centra los elementos horizontalmente */
+    background-color: #333;  /* Fondo oscuro para la barra */
+    padding: 10px 0;  /* Espaciado dentro de la barra */
+  }
+  
+  /* Estilo para los elementos de la lista */
+  .navbar ul {
+    display: flex;  /* Los elementos se muestran en fila */
+    list-style: none;  /* Quitar los puntos de la lista */
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Estilo para los enlaces */
+  .navbar li {
+    margin: 0 15px;  /* Espacio entre los botones */
+  }
+  
+  /* Estilo para los enlaces */
+  .navbar a {
+    color: white;  /* Color del texto */
+    text-decoration: none;  /* Sin subrayado */
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 5px;  /* Bordes redondeados */
+    transition: background-color 0.3s;
+  }
+  
+  /* Estilo para los enlaces al pasar el ratón */
+  .navbar a:hover {
+    background-color: #16b6ea;  /* Cambio de color al pasar el ratón */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    padding: 30px;
+    background-color: #333; /* Fondo oscuro */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+th, td {
+    border: 0px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    /*background-color: #888;  Fondo de los encabezados */
+    color: white;
+}
+
+.button {
+    display: inline-block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: white;  /* Texto blanco */
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-add {
+    background-color: green;
+    padding: 10px 15px;
+    color: white;
+}
+
+.btn-edit {
+    text-align: center;
+    width: auto;
+    font-size: 14px;
+    padding: 5px 10px;
+    /* background-color: rgb(255, 255, 255);
+    color: white; */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: rgba(80, 80, 80, 0.452);
+    color: rgba(255, 255, 255, 0.822);
+}
+
+.btn-edit:hover {
+    background-color: rgba(168, 168, 168, 0.603);
+    color: rgba(255, 255, 255, 1);
+}
+.btn-delete {
+    background-color: rgba(54, 54, 54, 0.274);
+}
+
+/* Evita los puntos de los enlaces */
+/* Fondo más oscuro para los enlaces dentro de botones */
+a {
+  color: white;
+  text-decoration: none;
+  background-color: #333; /* Fondo oscuro */
+  padding: 10px;
+  border-radius: 5px;
+}
+
+
+/* Cuando pasamos el mouse por encima */
+a:hover {
+    opacity: 0.8;
+}
+
+/* Asegura que no haya viñetas antes de los links */
+ul {
+    list-style: none;
+    padding: 0;
+}
+/* Estilos generales para el formulario */
+form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #333; /* Fondo oscuro */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Títulos del formulario */
+  form h2 {
+    font-size: 24px;
+    color: #fff; /* Texto blanco para contraste */
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  /* Etiquetas de los campos */
+  form label {
+    font-size: 14px;
+    color: #bbb; /* Gris claro para las etiquetas */
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  /* Estilo para los campos de entrada */
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="password"],
+  form textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    color: #fff; /* Texto en blanco */
+    background-color: #444; /* Fondo gris oscuro */
+    border: 1px solid #555; /* Borde gris medio */
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Efecto de enfoque en los campos */
+  form input[type="text"]:focus,
+  form input[type="email"]:focus,
+  form input[type="password"]:focus,
+  form textarea:focus {
+    border-color: #16b6ea; /* Borde azul brillante */
+    outline: none;
+  }
+  
+  /* Estilo para los botones */
+  form button {
+    background-color: #16b6ea;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+  
+  /* Efecto de hover en los botones */
+  form button:hover {
+    background-color: #14a0c2; /* Azul oscuro al pasar el ratón */
+  }
+  
+  /* Estilo para los mensajes de error */
+  form .error {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilo para los mensajes de éxito */
+  form .success {
+    color: #2ecc71;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+
+.contenedor {
+    width: 50%; /* Puedes ajustar el ancho según prefieras */
+    max-width: 800px; /* Evita que sea demasiado ancho en pantallas grandes */
+    margin: 0 auto; /* Centra horizontalmente */
+    padding: 20px;
+ 
+ 
+    border-radius: 10px; /* Bordes redondeados opcionales */
+    text-align: left; /* Asegura que el texto dentro quede alineado a la izquierda */
+}
+
+.btn-small {
+  font-size: 0.875rem; /* Tamaño de fuente más pequeño */
+  padding: 0.25rem 0.5rem; /* Reducción de relleno (padding) */
+  border-radius: 0.25rem; /* Bordes redondeados */
+}
+
+.bg-yellow-500 {
+  background-color: #f59e0b; /* Amarillo */
+}
+
+.bg-green-500 {
+  background-color: #10b981; /* Verde */
+}
+
+.text-white {
+  color: rgb(8, 8, 8); /* Texto blanco */
+}
+
+/* Estilo específico para el botón de eliminar en el formulario */
+form button.btn-eliminar {
+  width: auto !important; /* Evitar que el botón ocupe el 100% del ancho */
+  font-size: 14px;
+  padding: 5px 10px;
+  background-color: rgb(148, 187, 172);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button.btn-eliminar:hover {
+  background-color: rgb(0, 139, 19);
+}
+.form-recorrido {
+  max-width: 100px;
+  margin: 0 0;
+  text-align: center;
+  padding: 03px;
+  /* background-color: #fd5c5c; */
+  border-radius: 0px;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.4);
+
+  
+}
+/* Estilo para los botones solo en la página de Recorridos */
+/* Estilo solo para los formularios con la clase "form-recorrido" */
+.form-recorrido button {
+  width: auto;
+  font-size: 14px;
+  padding: 5px 10px;
+  /* background-color: rgb(255, 255, 255);
+  color: white; */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: rgba(255, 0, 0, 0.452);
+}
+
+.form-recorrido button:hover {
+  background-color: rgba(139, 0, 0, 0.329);
+}
+
+

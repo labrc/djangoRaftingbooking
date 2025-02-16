@@ -1,0 +1,370 @@
+/* Estilo para el cuerpo de la página */
+body {
+  background-color: #202020;
+  color: whitesmoke;
+}
+
+/* ✅ Mejor organización de la barra de navegación */
+.navbar {
+  display: flex;
+  justify-content: center;
+  background-color: #333;
+  padding: 10px 0;
+}
+
+.navbar ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  margin: 0 10px; /* Menos espacio para evitar dispersión en pantallas grandes */
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 8px 12px; /* Reducir padding para que no se vean demasiado grandes */
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.navbar a:hover {
+  background-color: #16b6ea;
+}
+
+/* ✅ Estilos de Tabla mejorados */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+th, td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  color: white;
+}
+
+/* ✅ Botones más compactos y responsivos */
+.button {
+  display: inline-block;
+  padding: 6px 12px;
+  text-decoration: none;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+/* 🔹 Botón de Agregar */
+.btn-add {
+  background-color: green;
+  padding: 8px 12px;
+}
+
+/* 🔹 Botón de Editar */
+.btn-edit {
+  margin: 0 0;
+  width: auto;
+  font-size: 14px;
+  padding: 3px 3px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: rgba(80, 80, 80, 0.452);
+  color: rgba(255, 255, 255, 0.822);
+}
+
+.btn-edit:hover {
+  background-color: rgba(168, 168, 168, 0.603);
+  color: white;
+}
+
+/* 🔹 Botón de Eliminar */
+.btn-delete {
+  background-color: rgba(200, 0, 0, 0.8);
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: rgba(255, 0, 0, 0.9);
+}
+
+/* ✅ Ajuste de Enlaces */
+a {
+  color: white;
+  text-decoration: none;
+  background-color: #333;
+  padding: 8px 10px;
+  border-radius: 5px;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+/* ✅ Mejor manejo de formularios */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+form label {
+  font-size: 14px;
+  color: #bbb;
+  margin-bottom: 8px;
+  display: block;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  color: white;
+  background-color: #444;
+  border: 1px solid #555;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #16b6ea;
+  outline: none;
+}
+
+/* 🔹 Botón en formularios */
+form button {
+  background-color: #16b6ea;
+  color: white;
+  padding: 10px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: auto; /* 🔥 Evita que ocupe el 100% */
+}
+
+form button:hover {
+  background-color: #14a0c2;
+}
+
+/* ✅ Mensajes de error y éxito */
+form .error {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+form .success {
+  color: #2ecc71;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+/* 🔹 Contenedor mejor estructurado */
+.contenedor {
+  width: 60%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+/* ✅ Botones más compactos en Recorridos */
+.form-recorrido {
+  max-width: 120px;
+  margin: 0 0;
+  text-align: center;
+  display: inline-block; /* 🔹 Asegura que el formulario no ocupe todo el ancho */
+  margin: 0; /* 🔹 Elimina márgenes extra */
+  padding: 0; /* 🔹 Evita rellenos innecesarios */
+
+}
+
+.form-recorrido button {
+  width: auto;
+  font-size: 12px;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: rgba(255, 0, 0, 0.452);
+}
+
+.form-recorrido button:hover {
+  background-color: rgba(139, 0, 0, 0.6);
+  padding: 10px 10px;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;
+  width: 220px;
+  display: none; /* Inicialmente oculto */
+  font-size: 14px;
+  color: #333;
+}
+.tabla-navegantes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.tabla-navegantes th, .tabla-navegantes td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: left;
+  color: white;
+}
+
+.tabla-navegantes th {
+  background-color: #555;
+}
+
+.tabla-navegantes td button {
+  margin-right: 5px; /* Espaciado entre botones */
+}
+
+
+
+
+
+
+.btn-editar {
+  background-color: #f1c40f; /* Amarillo */
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-editar:hover {
+  background-color: #d4ac0d;
+}
+.tabla-navegantes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.tabla-navegantes th, .tabla-navegantes td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: left;
+  color: white;
+}
+
+.tabla-navegantes th {
+  background-color: #555;
+}
+
+/* Espaciado entre botones */
+.tabla-navegantes td button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Estilos específicos para los botones */
+.btn-datos {
+  background-color: #3498db;
+  color: white;
+  border: none;
+}
+
+.btn-datos:hover {
+  background-color: #2980b9;
+}
+
+button[onclick^="sendWhatsApp"] {
+  background-color: #25D366; /* Color de WhatsApp */
+  color: white;
+  border: none;
+}
+
+button[onclick^="sendWhatsApp"]:hover {
+  background-color: #1ebe57;
+}
+
+button[onclick^="sendEmail"] {
+  background-color: #ff9800; /* Color para Email */
+  color: white;
+  border: none;
+}
+
+button[onclick^="sendEmail"]:hover {
+  background-color: #e68900;
+}
+/* Asegura que los botones tengan un tamaño fijo */
+.btn-whatsapp, .btn-email {
+  width: 100px;  /* Ajusta según el diseño */
+  height: 28px;  /* Altura uniforme */
+  font-size: 12px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estilos de botones activos */
+.btn-whatsapp {
+  background-color: #25D366; /* Verde WhatsApp */
+  color: white;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1ebe57;
+}
+
+.btn-email {
+  background-color: #ff9800; /* Naranja Email */
+  color: white;
+}
+
+.btn-email:hover {
+  background-color: #e68900;
+}
+
+/* Estilos de botones deshabilitados (mismo tamaño y apariencia) */
+.btn-whatsapp:disabled, .btn-email:disabled {
+  background-color: #555;  /* Gris oscuro */
+  color: white;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
